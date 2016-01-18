@@ -14,6 +14,20 @@ class List {
   private static int LEN = 10;
   private Object [] items;  // the actual items
   private int numItems;     // the number of items currently in the list
+  private int currentObject;
+  
+  public void firstElement(){
+	  
+  }
+  
+  public void nextElement(){
+	  
+  }
+  
+  public boolean hasMoreElements(){
+	  return true;
+  }
+  
   
 
   public static void main(String[] args)
