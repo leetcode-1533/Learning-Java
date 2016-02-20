@@ -6,40 +6,76 @@ package homework;
  *  A List is an ordered collection of any kind of Object.
  * 
  *  Operations:
- *     AddToEnd    Add a given object to the end of the list.
- *     Print       Print (to standard output) the objects in the list in order,
+ *		AddToEnd    Add a given object to the end of the list.
+ *		Print       Print (to standard output) the objects in the list in order,
  *                 enclosed in square brackets, separated by spaces.
+ *		firstElement	put the iterator at the front
+ *		nextElement		get the current object and move up the iterator
+ *		hasMoreElements	true if iterator havsn't reached the bounds
  */
-class List {
-  private static int LEN = 10;
-  private Object [] items;  // the actual items
-  private int numItems;     // the number of items currently in the list
-  private int currentObject;
+public class List {
+	/*
+	 *  |item0|					<- currentOb
+	 *  |item1					<- currentOb
+	 *  |item2  <-  numItems	<- currentOb
+	 *  |null,i3
+	 *  |i4
+	 *  |i5
+	 *  |i6
+	 *  |i7
+	 *  |i8
+	 *  |i9		<- LEN
+	 *  
+	 *  numItems is incremental only
+	 *  LEN only increase by multiplying 2, when numItems reaches LEN
+	 *  currentOb iterate over the list, bounded by numItems
+	 */
+  private int LEN = 10;
+  private int numItems;    
+  private int currentObject; 
   
-  public void firstElement(){
-	  
-  }
-  
-  public void nextElement(){
-	  
-  }
-  
-  public boolean hasMoreElements(){
-	  return true;
-  }
-  
-  
+  private Object [] items; 
 
   public static void main(String[] args)
   {
 	  List test = new List();
 	  
-	  for(int i=0;i<=19;i++){
+	  for(int i=0;i<=18;i++){
 		  test.AddToEnd(i+new Integer(10));
 	  }
-	  
 	  test.Print();
+	  test.firstElement();
+	  while(test.hasMoreElements()){
+		  Object tmp = test.nextElement();
+		  System.out.println(tmp);
+	  }
+	   
   }
+  
+  public void firstElement(){
+	  currentObject = 0;
+  }
+  
+  public Object nextElement(){
+	  int tmp = currentObject;
+	  
+	  // To round back
+	  if(currentObject < numItems)
+		  currentObject++;  
+	  else
+		  firstElement();		 
+	  
+	  return items[tmp];
+  }
+  
+  public boolean hasMoreElements(){
+	  
+	  if(currentObject < numItems)
+		  return true;
+	  else 
+		  return false;
+  }
+  
   /*
    * constructor: initialize the list to be empty
    */
@@ -47,6 +83,7 @@ class List {
   {
 	items = new Object [LEN];
     numItems = 0;
+    currentObject = 0;
   }
 
   /*
@@ -62,14 +99,14 @@ class List {
 		  numItems ++;
 	  }
 	  else{
-		  Object [] tmp = new Object [LEN*2];
-		  System.arraycopy( items, 0, tmp, 0, LEN);
+		  Object [] tmp = new Object [numItems*2];
+		  System.arraycopy( items, 0, tmp, 0, numItems);
 		  LEN = LEN*2;
 		  items = tmp;
 		  
 		  items[numItems] = ob;
 		  numItems ++;
-	  }
+		  }
   }
   
   /*
@@ -86,6 +123,6 @@ class List {
 		  System.out.print(items[i]);
 		  System.out.print(' ');
 	  }
-	  System.out.print(']');  
+	  System.out.print(']'); 
   }
 }
